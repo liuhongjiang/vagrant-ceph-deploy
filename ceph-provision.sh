@@ -20,7 +20,7 @@ sudo yum update -y && sudo yum install -y ceph-deploy
 sudo yum install -y ntp ntpdate ntp-doc
 sudo yum install -y openssh-server
 
-flag=`grep "mon1" /etc/hosts | wc -l`
+flag=`grep "mon1" /etc/hosts | grep -v "127.0.0.1" | wc -l`
 
 if [ $flag -eq 0 ]
 then
@@ -32,7 +32,11 @@ sudo cat <<hostsdoc >> /etc/hosts
 hostsdoc
 fi
 
+# add ssh password 
 sudo sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+
+# add ssh known_hosts automatically
+sudo sed -i "s/^\tGSSAPIAuthentication yes/\tGSSAPIAuthentication yes\n\tStrictHostKeyChecking no/g" /etc/ssh/ssh_config
 
 sudo service sshd restart
 

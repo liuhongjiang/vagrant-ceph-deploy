@@ -68,21 +68,16 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
-  config.vm.define "deploy" do |deploy|
-    #deploy.vm.box = "ubuntu/trusty64"
-    deploy.vm.box = "centos/7"
-    deploy.vm.network "private_network", ip: "192.168.50.4"
-    deploy.vm.hostname = "deploy"
-    deploy.vm.provision "shell", path: "ceph-provision.sh"
-    deploy.vm.provision "file", source: "deploy.sh", destination: "/home/vagrant/deploy.sh"
-    #deploy.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/id_rsa.pub"
-  end
+  
   config.vm.define "mon1" do |mon1|
     #mon1.vm.box = "ubuntu/trusty64"
     mon1.vm.box = "centos/7"
     mon1.vm.network "private_network", ip: "192.168.50.11"
     mon1.vm.hostname = "mon1"
     mon1.vm.provision "shell", path: "ceph-provision.sh"
+    mon1.vm.provision "file", source: "ssh-keys/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
+    mon1.vm.provision "file", source: "ssh-keys/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+    mon1.vm.provision "shell", inline: "cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys"
   end
   config.vm.define "osd1" do |osd1|
     #osd1.vm.box = "ubuntu/trusty64"
@@ -90,6 +85,9 @@ Vagrant.configure(2) do |config|
     osd1.vm.network "private_network", ip: "192.168.50.21"
     osd1.vm.hostname = "osd1"
     osd1.vm.provision "shell", path: "ceph-provision.sh"
+    osd1.vm.provision "file", source: "ssh-keys/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
+    osd1.vm.provision "file", source: "ssh-keys/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+    osd1.vm.provision "shell", inline: "cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys"
   end
   config.vm.define "osd2" do |osd2|
     #osd2.vm.box = "ubuntu/trusty64"
@@ -97,5 +95,19 @@ Vagrant.configure(2) do |config|
     osd2.vm.network "private_network", ip: "192.168.50.22"
     osd2.vm.hostname = "osd2"
     osd2.vm.provision "shell", path: "ceph-provision.sh"
+    osd2.vm.provision "file", source: "ssh-keys/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
+    osd2.vm.provision "file", source: "ssh-keys/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+    osd2.vm.provision "shell", inline: "cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys"
+  end
+  config.vm.define "deploy" do |deploy|
+    #deploy.vm.box = "ubuntu/trusty64"
+    deploy.vm.box = "centos/7"
+    deploy.vm.network "private_network", ip: "192.168.50.4"
+    deploy.vm.hostname = "deploy"
+    deploy.vm.provision "shell", path: "ceph-provision.sh"
+    deploy.vm.provision "file", source: "deploy.sh", destination: "/home/vagrant/deploy.sh"
+    deploy.vm.provision "file", source: "ssh-keys/id_rsa.pub", destination: "/home/vagrant/.ssh/id_rsa.pub"
+    deploy.vm.provision "file", source: "ssh-keys/id_rsa", destination: "/home/vagrant/.ssh/id_rsa"
+    deploy.vm.provision "shell", inline: "cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys"
   end
 end
