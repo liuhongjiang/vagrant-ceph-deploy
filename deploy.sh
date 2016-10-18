@@ -1,7 +1,5 @@
 #! /bin/env bash
 
-
-vagrant ssh deploy
 mkdir my-cluster
 cd my-cluster
 ceph-deploy new mon1
