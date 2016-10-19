@@ -5,7 +5,7 @@ cd my-cluster
 ceph-deploy new mon1
 echo "osd pool default size = 2" >> ceph.conf
 echo "public network = 192.168.50.0/24" >> ceph.conf
-ceph-deploy install mon1 osd1 osd2
+ceph-deploy install deploy mon1 osd1 osd2
 ceph-deploy mon create-initial
 
 # fix deploy failed, refer to: ttp://tracker.ceph.com/issues/13833
