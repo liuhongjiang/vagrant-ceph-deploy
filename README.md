@@ -10,10 +10,10 @@ To setup this environment, virtualbox should be installed on the machine.
 
 2. login deploy vm and run deploy script
 
-```
-vagrant ssh deploy
-sh -x deploy.sh
-```
+  ```
+  vagrant ssh deploy
+  sh -x deploy.sh
+  ```
 
 ## vms
 
@@ -28,6 +28,7 @@ The ceph admin will run on `deploy/mon1/osd1/osd2`, you can input the `ceph stat
 ## What's missing
 
 From the ceph-deploy manual, the following should be done:
+
 1. you need to create new user to deploy ceph
 2. and the public key of deploy node should be add to the monitor and osd node, so user can login to monitor and osd node from deploy node with the private key
 3. add ssh-config on the deploy node, like [this](http://docs.ceph.com/docs/master/start/quick-start-preflight/#enable-password-less-ssh), so when ssh to other node, we don't need to specify the username.
